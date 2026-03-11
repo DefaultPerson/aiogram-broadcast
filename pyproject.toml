@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aiogram-broadcast"
-version = "0.1.0"
+version = "0.1.1"
 description = "Broadcast/newsletter library for aiogram 3.x"
 readme = "README.md"
 license = "MIT"
