@@ -10,29 +10,6 @@ from aiogram_broadcast.models import SubscriberState
 from aiogram_broadcast.service import BroadcastService
 
 
-@pytest.fixture
-def storage() -> AsyncMock:
-    s = AsyncMock()
-    s.get_all_subscriber_ids = AsyncMock(return_value=[1, 2, 3])
-    s.get_subscribers_count = AsyncMock(return_value=3)
-    s.update_subscriber_state = AsyncMock()
-    return s
-
-
-@pytest.fixture
-def bot() -> AsyncMock:
-    b = AsyncMock()
-    b.send_message = AsyncMock()
-    b.send_photo = AsyncMock()
-    b.copy_message = AsyncMock()
-    return b
-
-
-@pytest.fixture
-def service(bot: AsyncMock, storage: AsyncMock) -> BroadcastService:
-    return BroadcastService(bot, storage, rate_limit=0)
-
-
 async def test_broadcast_text(service: BroadcastService, bot: AsyncMock) -> None:
     result = await service.broadcast_text("Hello!")
     assert result.total == 3
