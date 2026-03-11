@@ -91,9 +91,7 @@ class BroadcastUITexts:
                 "<b>Confirm scheduled broadcast</b>\n\n"
                 "Are you sure you want to schedule this broadcast?"
             ),
-            "broadcast_started": (
-                "Broadcast started. You will be notified when it completes."
-            ),
+            "broadcast_started": ("Broadcast started. You will be notified when it completes."),
             "broadcast_completed": (
                 "<b>Broadcast completed</b>\n\n"
                 "Total: <b>{total}</b>\n"
@@ -176,9 +174,7 @@ class BroadcastUITexts:
                 "<b>Подтверждение отложенной рассылки</b>\n\n"
                 "Вы уверены, что хотите запланировать эту рассылку?"
             ),
-            "broadcast_started": (
-                "Рассылка запущена. Вы получите уведомление о завершении."
-            ),
+            "broadcast_started": ("Рассылка запущена. Вы получите уведомление о завершении."),
             "broadcast_completed": (
                 "<b>Рассылка завершена</b>\n\n"
                 "Всего: <b>{total}</b>\n"

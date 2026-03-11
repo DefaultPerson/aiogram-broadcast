@@ -322,9 +322,7 @@ class BroadcastUIManager:
         message_data = message.model_dump()
         await self._data_storage.set("message_data", message_data)
 
-    async def update_message_buttons(
-        self, reply_markup: InlineKeyboardMarkup | None
-    ) -> None:
+    async def update_message_buttons(self, reply_markup: InlineKeyboardMarkup | None) -> None:
         """
         Update stored message with new reply markup.
 
@@ -358,9 +356,7 @@ class BroadcastUIManager:
             return
 
         # Create async task for broadcast
-        asyncio.create_task(
-            self._run_broadcast(subscriber_ids, message_data)
-        )
+        asyncio.create_task(self._run_broadcast(subscriber_ids, message_data))
 
     async def schedule_broadcast(self) -> str | None:
         """

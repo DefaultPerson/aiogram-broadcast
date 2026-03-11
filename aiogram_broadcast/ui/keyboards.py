@@ -82,15 +82,11 @@ class BroadcastUIKeyboards:
 
     def back_add(self) -> InlineKeyboardMarkup:
         """Back and Add buttons."""
-        return InlineKeyboardMarkup(
-            inline_keyboard=[[self._button("back"), self._button("add")]]
-        )
+        return InlineKeyboardMarkup(inline_keyboard=[[self._button("back"), self._button("add")]])
 
     def back_next(self) -> InlineKeyboardMarkup:
         """Back and Next buttons."""
-        return InlineKeyboardMarkup(
-            inline_keyboard=[[self._button("back"), self._button("next")]]
-        )
+        return InlineKeyboardMarkup(inline_keyboard=[[self._button("back"), self._button("next")]])
 
     def back_delete(self) -> InlineKeyboardMarkup:
         """Back and Delete buttons."""
@@ -106,9 +102,7 @@ class BroadcastUIKeyboards:
 
     def back_skip(self) -> InlineKeyboardMarkup:
         """Back and Skip buttons."""
-        return InlineKeyboardMarkup(
-            inline_keyboard=[[self._button("back"), self._button("skip")]]
-        )
+        return InlineKeyboardMarkup(inline_keyboard=[[self._button("back"), self._button("skip")]])
 
     def send_options(self) -> InlineKeyboardMarkup:
         """Send now/later options."""
@@ -267,9 +261,7 @@ class InlineKeyboardPaginator:
                 if self.current_page <= 3:
                     page_range = range(1, 4)
                     keyboard_dict[4] = self.next_page_label.format(4)
-                    keyboard_dict[self.total_pages] = self.last_page_label.format(
-                        self.total_pages
-                    )
+                    keyboard_dict[self.total_pages] = self.last_page_label.format(self.total_pages)
                 elif self.current_page > self.total_pages - 3:
                     keyboard_dict[1] = self.first_page_label.format(1)
                     keyboard_dict[self.total_pages - 3] = self.previous_page_label.format(
@@ -284,17 +276,13 @@ class InlineKeyboardPaginator:
                     keyboard_dict[self.current_page + 1] = self.next_page_label.format(
                         self.current_page + 1
                     )
-                    keyboard_dict[self.total_pages] = self.last_page_label.format(
-                        self.total_pages
-                    )
+                    keyboard_dict[self.total_pages] = self.last_page_label.format(self.total_pages)
                     page_range = range(self.current_page, self.current_page + 1)
 
                 for page in page_range:
                     keyboard_dict[page] = str(page)
 
-            keyboard_dict[self.current_page] = self.current_page_label.format(
-                self.current_page
-            )
+            keyboard_dict[self.current_page] = self.current_page_label.format(self.current_page)
 
             for key, val in sorted(keyboard_dict.items()):
                 builder.button(text=val, callback_data=self.data_pattern.format(key))

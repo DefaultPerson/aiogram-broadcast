@@ -115,6 +115,7 @@ class BroadcastService:
         Returns:
             BroadcastResult with statistics.
         """
+
         async def sender(chat_id: int) -> None:
             await self._bot.send_message(
                 chat_id=chat_id,
@@ -162,6 +163,7 @@ class BroadcastService:
         Returns:
             BroadcastResult with statistics.
         """
+
         async def sender(chat_id: int) -> None:
             await self._bot.send_photo(
                 chat_id=chat_id,
@@ -209,6 +211,7 @@ class BroadcastService:
         Returns:
             BroadcastResult with statistics.
         """
+
         async def sender(chat_id: int) -> None:
             await self._bot.send_video(
                 chat_id=chat_id,
@@ -256,6 +259,7 @@ class BroadcastService:
         Returns:
             BroadcastResult with statistics.
         """
+
         async def sender(chat_id: int) -> None:
             await self._bot.send_document(
                 chat_id=chat_id,
@@ -307,6 +311,7 @@ class BroadcastService:
         Returns:
             BroadcastResult with statistics.
         """
+
         async def sender(chat_id: int) -> None:
             await self._bot.copy_message(
                 chat_id=chat_id,
@@ -438,9 +443,7 @@ class BroadcastService:
 
                 if is_blocked:
                     # Update subscriber state
-                    await self._storage.update_subscriber_state(
-                        user_id, SubscriberState.KICKED
-                    )
+                    await self._storage.update_subscriber_state(user_id, SubscriberState.KICKED)
 
                 return False
 

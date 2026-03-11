@@ -10,6 +10,7 @@ from typing import Any
 
 class SubscriberState(str, Enum):
     """State of subscriber in relation to the bot."""
+
     MEMBER = "member"
     KICKED = "kicked"
 
@@ -27,14 +28,13 @@ class Subscriber:
         state: Subscription state (member/kicked).
         subscribed_at: Timestamp when user first interacted with bot.
     """
+
     id: int
     full_name: str
     username: str | None = None
     language_code: str | None = None
     state: SubscriberState = SubscriberState.MEMBER
-    subscribed_at: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    subscribed_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage."""
@@ -67,6 +67,7 @@ class BroadcastResult:
         blocked_users: List of user IDs who blocked the bot.
         errors: Dictionary mapping user_id to error message.
     """
+
     total: int = 0
     successful: int = 0
     failed: int = 0
@@ -105,6 +106,7 @@ class BroadcastTask:
         created_at: When the task was created.
         kwargs: Additional parameters for the broadcast.
     """
+
     id: str
     content: Any
     content_type: str

@@ -345,9 +345,7 @@ class BroadcastScheduler:
 
     async def _handle_completion(self, task_id: str, result: BroadcastResult) -> None:
         """Handle broadcast completion."""
-        logger.info(
-            f"Broadcast {task_id} completed: {result.successful}/{result.total} successful"
-        )
+        logger.info(f"Broadcast {task_id} completed: {result.successful}/{result.total} successful")
         if self._on_complete:
             try:
                 await self._on_complete(task_id, result)
