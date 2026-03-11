@@ -287,7 +287,7 @@ class InlineKeyboardPaginator:
                     keyboard_dict[self.total_pages] = self.last_page_label.format(
                         self.total_pages
                     )
-                    page_range = [self.current_page]
+                    page_range = range(self.current_page, self.current_page + 1)
 
                 for page in page_range:
                     keyboard_dict[page] = str(page)

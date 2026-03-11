@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING, Any
 
-from aiogram import BaseMiddleware
+from aiogram import BaseMiddleware, Bot
 from aiogram.types import Chat, TelegramObject, User
 
 from aiogram_broadcast.ui.keyboards import BroadcastUIKeyboards
@@ -95,10 +95,15 @@ class BroadcastUIMiddleware(BaseMiddleware):
 
         # Only process private chats
         if chat is not None and chat.type == "private" and user is not None:
-            state: FSMContext = data.get("state")
+            state: FSMContext | None = data.get("state")
+            bot: Bot | None = data.get("bot")
+
+            if state is None or bot is None:
+                data[self._manager_key] = manager
+                return await handler(event, data)
 
             # Get language from state or user
-            state_data = await state.get_data() if state else {}
+            state_data = await state.get_data()
             language_code = state_data.get("ui_language_code") or user.language_code
 
             # Create texts and keyboards with language
@@ -107,7 +112,7 @@ class BroadcastUIMiddleware(BaseMiddleware):
 
             # Create manager
             manager = BroadcastUIManager(
-                bot=data.get("bot"),
+                bot=bot,
                 user=user,
                 state=state,
                 service=self._service,

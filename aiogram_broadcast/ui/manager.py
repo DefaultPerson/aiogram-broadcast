@@ -166,6 +166,7 @@ class BroadcastUIManager:
         # Get scheduled broadcasts from scheduler
         items: list[tuple[str, str]] = []
         if self.scheduler and self.scheduler.is_configured:
+            assert self.scheduler.scheduler is not None
             jobs = self.scheduler.scheduler.get_jobs()
             items = sorted(
                 [
@@ -183,7 +184,7 @@ class BroadcastUIManager:
         # Get subscriber count
         subscriber_count = len(state_data.get("subscriber_ids", []))
 
-        text = self.texts.get("broadcasts_list", total=subscriber_count)
+        text = self.texts.get("broadcasts_list", total=str(subscriber_count))
         markup = self.keyboards.broadcasts_list(page_items, page, total_pages)
 
         message = await self._send_message(text, reply_markup=markup)
@@ -196,6 +197,7 @@ class BroadcastUIManager:
         job_id = state_data.get("job_id")
 
         if self.scheduler and self.scheduler.is_configured and job_id:
+            assert self.scheduler.scheduler is not None
             job = self.scheduler.scheduler.get_job(job_id)
             if job and hasattr(job, "kwargs"):
                 message_data = job.kwargs.get("message_data")
@@ -383,6 +385,7 @@ class BroadcastUIManager:
 
         task_id = self.scheduler._generate_task_id()
 
+        assert self.scheduler.scheduler is not None
         self.scheduler.scheduler.add_job(
             func=self._run_broadcast,
             trigger=DateTrigger(scheduled_dt),
@@ -409,6 +412,7 @@ class BroadcastUIManager:
             return False
 
         try:
+            assert self.scheduler.scheduler is not None
             self.scheduler.scheduler.remove_job(job_id)
             return True
         except Exception:
@@ -449,9 +453,9 @@ class BroadcastUIManager:
         # Notify completion
         end_text = self.texts.get(
             "broadcast_completed",
-            total=len(subscriber_ids),
-            successful=successful,
-            failed=failed,
+            total=str(len(subscriber_ids)),
+            successful=str(successful),
+            failed=str(failed),
         )
         with suppress(TelegramBadRequest):
             await self.bot.send_message(self.user.id, text=end_text)

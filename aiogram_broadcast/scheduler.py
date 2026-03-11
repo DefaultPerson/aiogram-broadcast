@@ -133,6 +133,7 @@ class BroadcastScheduler:
             },
         )
 
+        assert self._scheduler is not None
         self._scheduler.add_job(
             self._execute_text_broadcast,
             trigger="date",
@@ -188,6 +189,7 @@ class BroadcastScheduler:
             },
         )
 
+        assert self._scheduler is not None
         self._scheduler.add_job(
             self._execute_photo_broadcast,
             trigger="date",
@@ -245,6 +247,7 @@ class BroadcastScheduler:
             },
         )
 
+        assert self._scheduler is not None
         self._scheduler.add_job(
             self._execute_copy_broadcast,
             trigger="date",
@@ -270,6 +273,7 @@ class BroadcastScheduler:
         """
         self._ensure_scheduler()
 
+        assert self._scheduler is not None
         try:
             self._scheduler.remove_job(task_id)
             self._pending_tasks.pop(task_id, None)

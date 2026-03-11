@@ -95,7 +95,7 @@ class DataStorage:
             key: Storage key.
             data: Any picklable Python object.
         """
-        await self.state.update_data(**{key: self._to_hex(data)})
+        await self.state.update_data({key: self._to_hex(data)})
 
     async def get(self, key: str, default: Any = None) -> Any:
         """

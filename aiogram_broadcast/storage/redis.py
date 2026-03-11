@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import AsyncIterator
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram_broadcast.models import Subscriber, SubscriberState
 from aiogram_broadcast.storage.base import BaseBroadcastStorage
@@ -47,11 +47,11 @@ class RedisBroadcastStorage(BaseBroadcastStorage):
     async def add_subscriber(self, subscriber: Subscriber) -> None:
         """Add a new subscriber to Redis hash."""
         data = json.dumps(subscriber.to_dict())
-        await self._redis.hset(self._subscribers_key, str(subscriber.id), data)
+        await self._redis.hset(self._subscribers_key, str(subscriber.id), data)  # type: ignore[misc]
 
     async def get_subscriber(self, user_id: int) -> Subscriber | None:
         """Get subscriber from Redis hash."""
-        data = await self._redis.hget(self._subscribers_key, str(user_id))
+        data = await self._redis.hget(self._subscribers_key, str(user_id))  # type: ignore[misc]
         if data is None:
             return None
         return Subscriber.from_dict(json.loads(data))
@@ -62,7 +62,7 @@ class RedisBroadcastStorage(BaseBroadcastStorage):
 
     async def delete_subscriber(self, user_id: int) -> bool:
         """Delete subscriber from Redis hash."""
-        deleted = await self._redis.hdel(self._subscribers_key, str(user_id))
+        deleted: int = await self._redis.hdel(self._subscribers_key, str(user_id))  # type: ignore[misc]
         return deleted > 0
 
     async def get_all_subscriber_ids(
@@ -72,7 +72,7 @@ class RedisBroadcastStorage(BaseBroadcastStorage):
         """Get all subscriber IDs, optionally filtered by state."""
         if state is None:
             # Fast path: just get all keys
-            keys = await self._redis.hkeys(self._subscribers_key)
+            keys: list[Any] = await self._redis.hkeys(self._subscribers_key)  # type: ignore[misc]
             return [int(k) for k in keys]
 
         # Slow path: need to filter by state
@@ -87,7 +87,8 @@ class RedisBroadcastStorage(BaseBroadcastStorage):
     ) -> int:
         """Get count of subscribers, optionally filtered by state."""
         if state is None:
-            return await self._redis.hlen(self._subscribers_key)
+            result: int = await self._redis.hlen(self._subscribers_key)  # type: ignore[misc]
+            return result
 
         # Need to count filtered subscribers
         count = 0
