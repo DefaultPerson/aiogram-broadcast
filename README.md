@@ -88,36 +88,6 @@ A complete FSM-based wizard for composing and scheduling broadcasts from Telegra
 
 See [examples/ui_menu.py](examples/ui_menu.py).
 
-## API Reference
-
-### Models
-
-- `Subscriber` — subscriber model
-- `SubscriberState` — subscriber state (MEMBER/KICKED)
-- `BroadcastResult` — broadcast result with statistics
-- `BroadcastTask` — scheduled broadcast task
-
-### Storage
-
-- `BaseBroadcastStorage` — abstract storage class
-- `RedisBroadcastStorage` — Redis implementation
-
-### Middleware
-
-- `BroadcastMiddleware` — auto subscriber registration
-- `BroadcastChatMemberMiddleware` — chat member update handler
-
-### Service
-
-- `BroadcastService` — broadcast sender with rate limiting
-- `BroadcastScheduler` — APScheduler integration
-
-### UI
-
-- `BroadcastUIMiddleware` — injects UI manager into handlers
-- `BroadcastUIHandlers` — FSM handlers for the broadcast menu
-- `BroadcastUIManager` — menu state management
-
 ## License
 
 MIT
