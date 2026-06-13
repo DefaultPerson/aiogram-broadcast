@@ -10,17 +10,20 @@ Broadcast/newsletter library for Telegram bots built with aiogram 3.x.
 - Automatic subscriber registration via middleware
 - Rate-limited broadcasting to avoid Telegram API limits
 - Scheduled broadcasts with APScheduler
-- Redis subscriber storage
+- Pluggable subscriber storage: Redis or PostgreSQL
 - Progress callbacks for monitoring
 - Interactive UI menu with multi-language support (EN/RU)
 
 ## Installation
 
+Pick a storage backend (the core package no longer pulls in a driver by default):
+
 ```bash
-pip install aiogram-broadcast
+pip install aiogram-broadcast[redis]      # Redis storage
+pip install aiogram-broadcast[postgres]   # PostgreSQL storage (asyncpg)
 ```
 
-With scheduled broadcasts and UI:
+Everything (both backends, scheduler and UI):
 
 ```bash
 pip install aiogram-broadcast[all]
@@ -44,6 +47,38 @@ print(f"{result.successful}/{result.total} sent, {result.success_rate:.0f}%")
 ```
 
 See [examples/basic.py](examples/basic.py) for a complete runnable bot.
+
+## Storage
+
+Both backends implement the same `BaseBroadcastStorage` interface, so the service,
+middleware, scheduler and UI work identically regardless of which one you pick.
+
+### Redis
+
+```python
+from redis.asyncio import Redis
+from aiogram_broadcast import RedisBroadcastStorage
+
+redis = Redis(host="localhost")
+storage = RedisBroadcastStorage(redis)
+```
+
+### PostgreSQL
+
+```python
+import asyncpg
+from aiogram_broadcast import PostgresBroadcastStorage
+
+pool = await asyncpg.create_pool("postgresql://user:pass@localhost:5432/db")
+storage = PostgresBroadcastStorage(pool)
+await storage.create_schema()  # create the table and index once on startup
+
+# or build the pool for you from a DSN:
+storage = await PostgresBroadcastStorage.from_dsn("postgresql://user:pass@localhost/db")
+await storage.create_schema()
+```
+
+See [examples/postgres.py](examples/postgres.py) for a complete runnable bot.
 
 ## Usage
 

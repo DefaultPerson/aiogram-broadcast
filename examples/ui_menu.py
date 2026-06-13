@@ -7,7 +7,7 @@ Demonstrates:
 - Multi-language support (auto-detected from user's Telegram language)
 
 Requirements:
-    pip install aiogram-broadcast[ui]
+    pip install aiogram-broadcast[redis,ui]
 """
 
 import asyncio

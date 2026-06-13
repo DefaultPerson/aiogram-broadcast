@@ -8,7 +8,7 @@ Features:
 - Automatic subscriber registration via middleware
 - Rate-limited broadcasting to avoid API limits
 - Scheduled broadcasts with APScheduler integration
-- Redis storage for subscribers
+- Pluggable storage: Redis or PostgreSQL for subscribers
 - Progress callbacks for monitoring broadcasts
 - Interactive UI menu for creating broadcasts (see aiogram_broadcast.ui)
 
@@ -47,7 +47,7 @@ Interactive UI:
     )
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "DefaultPerson"
 
 from aiogram_broadcast.exceptions import (
@@ -70,6 +70,7 @@ from aiogram_broadcast.scheduler import BroadcastScheduler
 from aiogram_broadcast.service import BroadcastService
 from aiogram_broadcast.storage import (
     BaseBroadcastStorage,
+    PostgresBroadcastStorage,
     RedisBroadcastStorage,
 )
 
@@ -90,6 +91,7 @@ __all__ = [
     # Storage
     "BaseBroadcastStorage",
     "RedisBroadcastStorage",
+    "PostgresBroadcastStorage",
     # Exceptions
     "BroadcastError",
     "StorageError",

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aiogram-broadcast"
-version = "0.1.1"
+dynamic = ["version"]
 description = "Broadcast/newsletter library for aiogram 3.x"
 readme = "README.md"
 license = "MIT"
@@ -36,10 +36,15 @@ classifiers = [
 
 dependencies = [
     "aiogram>=3.0.0",
-    "redis>=5.0.0",
 ]
 
 [project.optional-dependencies]
+redis = [
+    "redis>=5.0.0,<8",
+]
+postgres = [
+    "asyncpg>=0.29.0",
+]
 scheduler = [
     "apscheduler>=3.10.0",
 ]
@@ -47,6 +52,8 @@ ui = [
     "apscheduler>=3.10.0",
 ]
 all = [
+    "redis>=5.0.0,<8",
+    "asyncpg>=0.29.0",
     "apscheduler>=3.10.0",
 ]
 dev = [
@@ -54,12 +61,17 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
+    "redis>=5.0.0,<8",
+    "asyncpg>=0.29.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/DefaultPerson/aiogram-broadcast"
 Repository = "https://github.com/DefaultPerson/aiogram-broadcast"
 Documentation = "https://github.com/DefaultPerson/aiogram-broadcast#readme"
+
+[tool.hatch.version]
+path = "aiogram_broadcast/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["aiogram_broadcast"]
@@ -92,6 +104,10 @@ warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
 module = "redis.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "asyncpg.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]

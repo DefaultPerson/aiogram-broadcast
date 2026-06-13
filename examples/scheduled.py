@@ -6,7 +6,7 @@ Demonstrates:
 - Listing and cancelling pending broadcasts
 
 Requirements:
-    pip install aiogram-broadcast[scheduler]
+    pip install aiogram-broadcast[redis,scheduler]
 """
 
 import asyncio

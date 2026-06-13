@@ -1,26 +1,27 @@
 """
-Basic broadcast bot.
+Basic broadcast bot backed by PostgreSQL.
 
 Demonstrates:
+- Using PostgreSQL (asyncpg) instead of Redis for subscriber storage
 - Automatic subscriber registration via middleware
 - Broadcasting a message to all subscribers
-- Subscriber statistics
 
 Requirements:
-    pip install aiogram-broadcast[redis]
+    pip install aiogram-broadcast[postgres]
 """
 
 import asyncio
 
+import asyncpg
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.filters import Command
 from aiogram.types import Message
-from redis.asyncio import Redis
 
-from aiogram_broadcast import BroadcastMiddleware, BroadcastService, RedisBroadcastStorage
+from aiogram_broadcast import BroadcastMiddleware, BroadcastService, PostgresBroadcastStorage
 
 BOT_TOKEN = "YOUR_BOT_TOKEN"
 ADMIN_ID = 123456789
+DATABASE_URL = "postgresql://user:password@localhost:5432/mydb"
 
 router = Router()
 
@@ -50,8 +51,11 @@ async def stats_handler(message: Message, broadcast_service: BroadcastService) -
 
 
 async def main() -> None:
-    redis = Redis(host="localhost")
-    storage = RedisBroadcastStorage(redis)
+    pool = await asyncpg.create_pool(DATABASE_URL)
+    storage = PostgresBroadcastStorage(pool)
+    # Create the subscribers table and index once on startup.
+    await storage.create_schema()
+
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
 
@@ -59,7 +63,10 @@ async def main() -> None:
     dp["broadcast_service"] = BroadcastService(bot, storage)
     dp.include_router(router)
 
-    await dp.start_polling(bot)
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await storage.close()
 
 
 if __name__ == "__main__":

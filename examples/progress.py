@@ -6,7 +6,7 @@ Demonstrates:
 - Editing a status message with live progress
 
 Requirements:
-    pip install aiogram-broadcast
+    pip install aiogram-broadcast[redis]
 """
 
 import asyncio
