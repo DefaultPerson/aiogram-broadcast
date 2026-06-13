@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - run: pip install mypy aiogram redis asyncpg
+      - run: pip install -e ".[dev]"
       - run: mypy aiogram_broadcast/
 
   test:
