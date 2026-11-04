@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import AsyncIterator
+from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
@@ -137,3 +138,16 @@ class TestRedisStorage:
         assert len(results) == 2
         assert results[0].id == 1
         assert results[1].id == 2
+
+
+class TestRedisStorageClose:
+    async def test_close_prefers_aclose(self) -> None:
+        client = SimpleNamespace(aclose=AsyncMock(), close=AsyncMock())
+        await RedisBroadcastStorage(client).close()
+        client.aclose.assert_awaited_once()
+        client.close.assert_not_called()
+
+    async def test_close_supports_legacy_client(self) -> None:
+        client = SimpleNamespace(close=AsyncMock())
+        await RedisBroadcastStorage(client).close()
+        client.close.assert_awaited_once()

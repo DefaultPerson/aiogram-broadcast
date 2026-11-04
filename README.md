@@ -112,6 +112,7 @@ See [examples/scheduled.py](examples/scheduled.py) for full setup.
 async def on_progress(current, total, result):
     print(f"{current}/{total} — {result.successful} sent, {result.failed} failed")
 
+
 await service.broadcast_text("msg", progress_callback=on_progress)
 ```
 
