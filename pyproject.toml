@@ -40,7 +40,7 @@ dependencies = [
 
 [project.optional-dependencies]
 redis = [
-    "redis>=5.0.0,<8",
+    "redis>=5.0.0,<9",
 ]
 postgres = [
     "asyncpg>=0.29.0",
@@ -52,7 +52,7 @@ ui = [
     "apscheduler>=3.10.0",
 ]
 all = [
-    "redis>=5.0.0,<8",
+    "redis>=5.0.0,<9",
     "asyncpg>=0.29.0",
     "apscheduler>=3.10.0",
 ]
@@ -61,7 +61,7 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
-    "redis>=5.0.0,<8",
+    "redis>=5.0.0,<9",
     "asyncpg>=0.29.0",
 ]
 
